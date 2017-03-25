@@ -20,8 +20,8 @@ cd $x
 cd nginx/
 docker build -t pro_nginx . 
 
-docker run -d --name ahmedhelmy-mysql pro_mysql 
-docker run -i -t --name ahmedhelmy-downloader pro_downloader
-docker run -d --name app1 --volumes-from ahmedhelmy-downloader --link ahmedhelmy-mysql:db pro_php-fpm
-docker run -d --name app2 --volumes-from ahmedhelmy-downloader --link ahmedhelmy-mysql:db pro_php-fpm
-docker run -d -p 90:80 --name ahmedhelmy-nginx --volumes-from ahmedhelmy-downloader --link app1:app1 --link app2:app2 pro_nginx
+docker run -d --name mysql pro_mysql 
+docker run -i -t --name downloader pro_downloader
+docker run -d --name app1 --volumes-from downloader --link mysql:db pro_php-fpm
+docker run -d --name app2 --volumes-from downloader --link mysql:db pro_php-fpm
+docker run -d -p 90:80 --name nginx --volumes-from downloader --link app1:app1 --link app2:app2 pro_nginx
